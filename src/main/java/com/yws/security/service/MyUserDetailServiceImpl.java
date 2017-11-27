@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +24,7 @@ import java.util.List;
  * @description  登陆验证时，通过username获取用户的所有权限信息
  *                 可以从数据库中读入用户的密码，角色信息，是否锁定，账号是否过期等
  */
+@Service
 public class MyUserDetailServiceImpl implements UserDetailsService{
     @Autowired
     private SysUserMapper userMapper;

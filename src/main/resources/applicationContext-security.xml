@@ -55,7 +55,7 @@
 
     <http pattern="/login*" security="none" />
     <!--<http pattern="/login.do" security="none" />-->
-    <http auto-config="true">
+    <http access-decision-manager-ref="accessDecisionManager">
         <csrf disabled="true"/>
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <access-denied-handler ref="accessDeniedHandler" />
@@ -70,41 +70,32 @@
         <session-management>
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
         </session-management>
-        <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+
+        <logout logout-url="/logout" success-handler-ref="logoutHandler"/>
+        <!--<logout logout-url="/logout" logout-success-url="/login" invalidate-session="true"/>-->
+
     </http>
 
-    <beans:bean id="authSuccess" class="com.yws.security.handler.AuthenticationSuccessHandlerImpl"/>
+    <!-- 登出处理 -->
+    <beans:bean id="logoutHandler" class="com.yws.security.handler.CustomLogoutSuccessHandler" />
 
     <!-- 自定义权限不足处理程序 -->
     <beans:bean id="accessDeniedHandler" class="com.yws.security.handler.RequestAccessDeniedHandler">
         <beans:property name="errorPage" value="/WEB-INF/pages/error/403.html" />
     </beans:bean>
 
-    <!--一个自定义的filter，必须包含 authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
-    我们的所有控制将在这三个类中实现，解释详见具体配置 -->
-    <beans:bean id="myFilter"
-            class="com.yws.security.filter.MyFilterSecurityInterceptor">
-        <beans:property name="authenticationManager" ref="authenticationManager" />
-        <beans:property name="accessDecisionManager" ref="myAccessDecisionManagerBean" />
-        <beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+    <!-- 认证管理器,确定用户,角色及相应的权限 -->
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <!-- 投票器 -->
+        <beans:constructor-arg>
+            <beans:list>
+                <!--<beans:bean class="com.hand.hap.security.CustomWebExpressionVoter"/>-->
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+                <beans:bean class="com.yws.securityVoter.PermissionVoter"/>
+            </beans:list>
+        </beans:constructor-arg>
     </beans:bean>
 
-    <!--验证配置，认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="myUserDetailService">
-            <!--如果用户的密码采用加密的话 <password-encoder hash="md5" /> -->
-        </authentication-provider>
-    </authentication-manager>
-
-    <!--在这个类中，你就可以从数据库中读入用户的密码，角色信息，是否锁定，账号是否过期等 -->
-    <beans:bean id="myUserDetailService" class="com.yws.security.service.MyUserDetailServiceImpl" />
-
-    <!--访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
-    <beans:bean id="myAccessDecisionManagerBean"
-            class="com.yws.security.filter.MyAccessDecisionManager">
-    </beans:bean>
-
-    <!--资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问 -->
-    <beans:bean id="securityMetadataSource"
-            class="com.yws.security.filter.MyInvocationSecurityMetadataSource" />
 </beans:beans>

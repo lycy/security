@@ -20,4 +20,12 @@ public interface SysResourceMapper {
      * @return
      */
     List<SysResource> getByRoleId(@Param("roleId") Integer roleId);
+
+    /**
+     * 根据url查询资源数据
+     * @param url
+     * @return
+     */
+    SysResource getResourceByUri(@Param("url") String url);
+
 }

@@ -2,6 +2,7 @@ package com.yws.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -29,13 +30,25 @@ public class TestController {
         return "/admin.html";
     }
 
-    @RequestMapping("/accessDenied")
-    public String toAccessDenied(){
-        return "/login_failure.jsp";
+//    @RequestMapping("/accessDenied")
+//    public String toAccessDenied(){
+//        return "/login_failure.jsp";
+//    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "/login.html";
     }
 
-//    @RequestMapping("/formLogin")
-//    public String formLogin(){
-//        return "/index.html";
-//    }
+    @GetMapping("/loginError")
+    public String loginError(){
+        return "/error/login_failure.html";
+    }
+
+
+    @RequestMapping("/index")
+    public String goIndex(){
+        return "/index.html";
+    }
+
 }

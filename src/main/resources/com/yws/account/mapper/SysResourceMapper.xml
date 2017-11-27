@@ -3,7 +3,7 @@
 <mapper namespace="com.yws.account.mapper.SysResourceMapper">
     <select id="getByRoleId" resultType="com.yws.account.dto.SysResource">
         SELECT
-            r.resource_id,
+            r.resource_id AS resourceId,
             r.url,
             r.type,
             r.`name`,
@@ -13,5 +13,17 @@
         INNER JOIN sys_role_resource rr ON r.resource_id = rr.resource_id
         WHERE
             rr.role_id = #{roleId}
+    </select>
+    <select id="getResourceByUri" resultType="com.yws.account.dto.SysResource">
+        SELECT
+            r.resource_id AS resourceId,
+            r.url,
+            r.type,
+            r.`name`,
+            r.description
+        FROM
+            sys_resource r
+        WHERE
+            r.url = #{url}
     </select>
 </mapper>
