@@ -2,7 +2,7 @@ package com.yws.account.service.impl;
 
 import com.yws.account.dto.SysUser;
 import com.yws.account.mapper.SysUserMapper;
-import com.yws.account.service.SysUserService;
+import com.yws.account.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @description
  */
 @Service
-public class SysUserServiceImpl implements SysUserService{
+public class SysUserServiceImpl implements ISysUserService {
     @Autowired
     private SysUserMapper userMapper;
     @Override

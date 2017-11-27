@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yws.account.mapper.SysResourceMapper">
+    <select id="getByRoleId" resultType="com.yws.account.dto.SysResource">
+        SELECT
+            r.resource_id,
+            r.url,
+            r.type,
+            r.`name`,
+            r.description
+        FROM
+            sys_resource r
+        INNER JOIN sys_role_resource rr ON r.resource_id = rr.resource_id
+        WHERE
+            rr.role_id = #{roleId}
+    </select>
+</mapper>

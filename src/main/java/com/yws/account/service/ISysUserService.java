@@ -8,6 +8,6 @@ import com.yws.account.dto.SysUser;
  * @name
  * @description
  */
-public interface SysUserService {
+public interface ISysUserService {
     SysUser getUserByUsername(String username);
 }

@@ -19,16 +19,16 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
     //配置文件注入
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
-
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         FilterInvocation fi = new FilterInvocation(servletRequest, servletResponse, filterChain);
         invoke(fi);
     }
-
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
-
+    @Override
     public void destroy() {
 
     }

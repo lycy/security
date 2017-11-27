@@ -20,7 +20,7 @@ import java.io.IOException;
 public class RequestAccessDeniedHandler implements AccessDeniedHandler {
 
     private String errorPage;
-
+    @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
         request.setAttribute(WebAttributes.ACCESS_DENIED_403, accessDeniedException);
