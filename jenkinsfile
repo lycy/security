@@ -1,7 +1,7 @@
 #!groovy
 
 
-node('mac_mini') {
+node{
 
 //    def buildTimestamp = sh(script: 'date +%Y%m%d%H%M%S%Z', returnStdout: true).replaceAll("\r", "").replaceAll("\n", "")
 
