@@ -1,0 +1,34 @@
+#!groovy
+
+
+node('mac_mini') {
+
+//    def buildTimestamp = sh(script: 'date +%Y%m%d%H%M%S%Z', returnStdout: true).replaceAll("\r", "").replaceAll("\n", "")
+
+    def dockerTagName = "lyvy/security:voter"
+
+
+    stage('checkout') {
+        git branch: "${BRANCH_NAME}", url: 'https://github.com/lycy/security.git'
+    }
+
+    stage('build') {
+        sh "mvn clean package -DskipTests"
+//        sh "docker build -t ${dockerTagName} -f Dockerfile ."
+
+    }
+
+//    stage('push') {
+//        docker.withRegistry("https://cloudsvn.chinacloudapp.cn:9082/", "29b4a8c5-07cc-4c6a-92fe-8f48c04e9de4") {
+//          docker.image(dockerTagName).push()
+//        }
+//    }
+//    stage('rm images') {
+//        sh "docker rmi ${dockerTagName}"
+//    }
+
+//    stage('deploy') {
+//        def config = sh(script: "curl -u 'E8E94B493E7C84DAFE52:6SYU48onLdVAqEjcQoRDUUb5rVLjjhfpW4jw9sCX' -X GET -H 'Content-Type: application/json, Accept: application/json' 'https://rancher.local.zhishinet.com/v2-beta/projects/${ENV_ID}/services/${SERVICE_ID}' | node rancherUpgradeGenerate.js ${dockerTagName}", returnStdout: true)
+//        sh "curl -u 'E8E94B493E7C84DAFE52:6SYU48onLdVAqEjcQoRDUUb5rVLjjhfpW4jw9sCX' -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"inServiceStrategy\": {\"launchConfig\": ${config}}, \"toServiceStrategy\":null}' 'https://rancher.local.zhishinet.com/v2-beta/projects/${ENV_ID}/services/${SERVICE_ID}?action=upgrade'"
+//    }
+}
