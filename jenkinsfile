@@ -10,15 +10,15 @@ node {
       if (isUnix()) {
          sh "mvn clean package -DskipTests"
       } else {
-         bat(/mvn clean package -DskipTests/)
+         bat "mvn clean package -DskipTests"
       }
    }
    stage('deploy') {
       if (isUnix()) {
          sh "mvn clean package -DskipTests"  // 更改
       } else {
-         bat(/del D:\tool\service\tomcat1\apache-tomcat-8.0.32\webapps\security.war/)
-         bat(/xcopy C:\soft\jenkins\workspace\spring-security\target\security.war D:\tool\service\tomcat1\apache-tomcat-8.0.32\webapps\/)
+         bat "del D:\\tool\\service\\tomcat1\\apache-tomcat-8.0.32\\webapps\\security.war"
+         bat "xcopy C:\\soft\\jenkins\\workspace\\spring-security\\target\\security.war D:\\tool\\service\\tomcat1\\apache-tomcat-8.0.32\\webapps"
       }
    }
 }
